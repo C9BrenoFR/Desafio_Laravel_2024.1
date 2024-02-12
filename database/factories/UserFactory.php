@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\HealthPlan;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
@@ -17,11 +19,21 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $healthPlanIds = HealthPlan::pluck('id')->toArray();
+
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => Hash::make('password'),
+            'bdate' => fake()->date(),
+            'phone' => fake()->phoneNumber(),
+            'cpf' => fake()->numerify('###.###.###-##'),
+            'abo' => fake()->randomElement(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']),
+            'adress' => fake()->address(),
+            'pfp' => fake()->imageUrl(),
+            'fst_login' => true,
+            'healthp_id' => fake()->randomElement($healthPlanIds),
             'remember_token' => Str::random(10),
         ];
     }

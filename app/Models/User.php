@@ -17,10 +17,20 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+    protected $table = 'users';
     protected $fillable = [
         'name',
         'email',
         'password',
+        'bdate',
+        'phone',
+        'cpf',
+        'abo',
+        'adress',
+        'pfp',
+        'healthp_id',
+        'fst_login',
     ];
 
     /**
@@ -42,4 +52,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function healthPlan()
+    {
+        return $this->belongsTo(HealthPlan::class);
+    }
+
+    public function surgeries()
+    {
+        return $this->hasMany(Surgery::class);
+    }
 }
