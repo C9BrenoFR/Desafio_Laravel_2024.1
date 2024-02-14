@@ -25,11 +25,33 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
+        // $request->authenticate();
 
-        $request->session()->regenerate();
+        // $request->session()->regenerate();
 
+        // return redirect()->intended(RouteServiceProvider::HOME);
+
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::guard('web')->attempt($credentials)) 
+        {
+            $request->session()->regenerate();
+            return redirect()->route('dashboard');
+
+        }else if (Auth::guard('admin')->attempt($credentials)) 
+        {
+            $request->session()->regenerate();
+            return redirect()->route('adminDashboard');
+
+        }else if (Auth::guard('doctor')->attempt($credentials)) 
+        {
+            $request->session()->regenerate();
+            return redirect()->route('doctorDashboard');
+
+        }
+        
         return redirect()->intended(RouteServiceProvider::HOME);
+
     }
 
     /**

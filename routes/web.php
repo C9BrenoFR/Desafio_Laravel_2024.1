@@ -14,13 +14,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return redirect(route('dashboard'));
+Route::get('/login', function () {
+    return view('auth.login');
 });
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('admin')->group(function(){
+    Route::get('/adminDashboard', function () {
+        echo "Welcome to the admin dashboard";
+    })->name('adminDashboard');
+});
+
+Route::middleware('doctor')->group(function(){
+    Route::get('/doctorDashboard', function () {
+        echo "Welcome to the doctor dashboard";
+    })->name('doctorDashboard');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
