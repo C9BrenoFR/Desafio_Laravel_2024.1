@@ -5,62 +5,42 @@ namespace App\Http\Controllers;
 use App\Models\HealthPlan;
 use App\Http\Requests\StoreHealthPlanRequest;
 use App\Http\Requests\UpdateHealthPlanRequest;
+use Illuminate\Http\Request;
 
 class HealthPlanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $healthplans = HealthPlan::all();
+        $healthplans = HealthPlan::paginate(10);
+        
+        return view('admin.healthplan', compact('healthplans'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(Request $request)
     {
-        //
-    }
+        $healthplan = new HealthPlan;
+        $healthplan->name = $request->name;
+        $healthplan->desc = $request->desc;
+        $healthplan->discount = $request->discount;
+        $healthplan->save();
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreHealthPlanRequest $request)
-    {
-        //
+        return redirect()->back();
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(HealthPlan $healthPlan)
+    public function edit(Request $request, HealthPlan $healthplan)
     {
-        //
+        $healthplan->name = $request->name;
+        $healthplan->desc = $request->desc;
+        $healthplan->discount = $request->discount;
+        $healthplan->save();
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(HealthPlan $healthPlan)
+    public function destroy(HealthPlan $healthplan)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateHealthPlanRequest $request, HealthPlan $healthPlan)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(HealthPlan $healthPlan)
-    {
-        //
+        $healthplan->users($healthplan->id)->each(function($user){
+            $user->healthp_id = 1;
+            $user->save();
+        });
+        $healthplan->delete();
+        return redirect()->back();
     }
 }

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('type', 255);
             $table->dateTime('date_start');
             $table->dateTime('date_end');
-            $table->double('price', 8, 2);
+            $table->string('price', 255);
             $table->unsignedBigInteger('doctor_id');
             $table->unsignedBigInteger('patient_id');
             $table->timestamps();
