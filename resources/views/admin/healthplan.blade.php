@@ -21,15 +21,15 @@
                         </div>
                         <div class="mb-4">
                             <label for="name" class="block text-sm font-medium text-gray-700">Nome</label>
-                            <input type="text" name="name" id="name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input type="text" name="name" id="name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
                         </div>
                         <div class="mb-4">
                             <label for="desc" class="block text-sm font-medium text-gray-700">Descrição</label>
-                            <input type="text" name="desc" id="desc" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input type="text" name="desc" id="desc" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
                         </div>
                         <div class="mb-4">
                             <label for="discount" class="block text-sm font-medium text-gray-700">Desconto</label>
-                            <input type="number" name="discount" id="discount" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input type="number" name="discount" id="discount" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
                         </div>
                         <div class="flex justify-end">
                             <button type="button" class="btn btn-outline-danger me-2" onclick="formShow(healthplanCreate, healthplanCreateBtn)">Cancelar</button>

@@ -21,35 +21,35 @@
                         </div>
                         <div class="mb-4">
                             <label for="name" class="block text-sm font-medium text-gray-700">Nome</label>
-                            <input type="text" name="name" id="name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input type="text" name="name" id="name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
                         </div>
                         <div class="mb-4">
                             <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                            <input type="text" name="email" id="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input type="text" name="email" id="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
                         </div>
                         <div class="mb-4">
                             <label for="bdate" class="block text-sm font-medium text-gray-700">Data de nascimento</label>
-                            <input type="date" name="bdate" id="bdate" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input type="date" name="bdate" id="bdate" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
                         </div>
                         <div class="mb-4">
                             <label for="password" class="block text-sm font-medium text-gray-700">Senha</label>
-                            <input type="text" name="password" id="password" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input type="text" name="password" id="password" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
                         </div>
                         <div class="mb-4">
                             <label for="adress" class="block text-sm font-medium text-gray-700">Endereço</label>
-                            <input type="text" name="adress" id="adress" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input type="text" name="adress" id="adress" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
                         </div>
                         <div class="mb-4">
                             <label for="phone" class="block text-sm font-medium text-gray-700">Telefone</label>
-                            <input type="text" name="phone" id="phone" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input type="text" name="phone" id="phone" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
                         </div>
                         <div class="mb-4">
                             <label for="cpf" class="block text-sm font-medium text-gray-700">CPF</label>
-                            <input type="text" name="cpf" id="cpf" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input type="text" name="cpf" id="cpf" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
                         </div>
                         <div class="mb-4">
                             <label for="specialty" class="block text-sm font-medium text-gray-700">Especialidade</label>
-                            <select name="specialty" id="specialty" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <select name="specialty" id="specialty" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
                                 @foreach ($specialties as $specialty)
                                     <option value="{{ $specialty->id }}">{{ $specialty->name }}</option>
                                 @endforeach
@@ -57,7 +57,7 @@
                         </div>
                         <div class="mb-4">
                             <label for="period" class="block text-sm font-medium text-gray-700">Período</label>
-                            <select name="period" id="period" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <select name="period" id="period" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
                                 <option value="00h-06h">00h-06h</option>
                                 <option value="06h-12h">06h-12h</option>
                                 <option value="12h-18h">12h-18h</option>
@@ -66,11 +66,11 @@
                         </div>
                         <div class="mb-4">
                             <label for="pfp" class="block text-sm font-medium text-gray-700">Foto de perfil</label>
-                            <input type="file" name="pfp" id="pfp" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input type="file" name="pfp" id="pfp" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
                         </div>
                         <div class="mb-4">
                             <label for="crm" class="block text-sm font-medium text-gray-700">CRM</label>
-                            <input type="text" name="crm" id="crm" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input type="text" name="crm" id="crm" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
                         </div>
                         <div class="flex justify-end">
                             <button type="button" class="btn btn-outline-danger me-2" onclick="formShow(doctorCreate, doctorCreateBtn)">Cancelar</button>
