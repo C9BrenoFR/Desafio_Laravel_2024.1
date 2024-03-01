@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Pagination\Paginator;
 
 class User extends Authenticatable
 {
@@ -58,8 +59,15 @@ class User extends Authenticatable
         return $this->belongsTo(HealthPlan::class);
     }
 
-    public function surgeries()
+    public function apointments($id)
     {
-        return $this->hasMany(Surgery::class);
+        $surgeries = Surgery::where('patient_id', $id)->get();
+        return $surgeries;
+    }
+
+    public function findById($id)
+    {
+        $user = User::find($id);
+        return $user;
     }
 }

@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Doctor;
-use App\Http\Requests\StoreDoctorRequest;
-use App\Http\Requests\UpdateDoctorRequest;
+use App\Models\Specialty;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class DoctorController extends Controller
 {
@@ -13,54 +17,117 @@ class DoctorController extends Controller
      */
     public function index()
     {
-        //
+        $doctors = Doctor::all();
+        $doctors = Doctor::paginate(10); 
+        $specialties = Specialty::all();
+
+        return view('admin.doctor', compact('doctors', 'specialties'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+   
+    public function store(Request $request)
     {
-        //
+        $doctor = new Doctor();
+
+        if($request->hasFile('pfp'))
+        {
+        $file = $request->file('pfp');
+        $filename = time() . '.' . $file->getClientOriginalExtension();
+        $caminho = '/uploads/';
+        $file->move($caminho, $filename);
+        $doctor->pfp = $caminho.$filename;
+        }else{
+            $doctor->pfp = '/uploads/default.jpg';
+        }
+        
+
+        $doctor->name = $request->name;
+        $doctor->email = $request->email;
+        $doctor->password = Hash::make($request->password);
+        $doctor->bdate = $request->bdate;
+        $doctor->adress = $request->adress;
+        $doctor->phone = $request->phone;
+        $doctor->cpf = $request->cpf;
+        $doctor->crm = $request->crm;
+        $doctor->specialty_id = $request->specialty;
+        $doctor->save();
+
+        if (env('APP_ENV') !== 'testing') {
+            return redirect()->back();
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreDoctorRequest $request)
+    public function update(Request $request, int $doctorid)
     {
-        //
+        if(Auth::guard('doctor')->check()){
+            $doctor = Auth::guard('doctor')->user();
+        }else{
+            $doctor = Doctor::find($doctorid);
+        }
+
+        if($request->hasFile('pfp')){
+            $file = $request->file('pfp');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $caminho = '/uploads/';
+            $file->move($caminho, $filename);
+            $doctor->pfp = $caminho.$filename;
+        }
+
+        $doctor->name = $request->name;
+        $doctor->email = $request->email;
+        $doctor->bdate = $request->bdate;
+        $doctor->adress = $request->adress;
+        $doctor->phone = $request->phone;
+        $doctor->cpf = $request->cpf;
+        $doctor->crm = $request->crm;
+        $doctor->period = $request->period;
+        $doctor->specialty_id = $request->specialty_id;
+        $doctor->save();
+
+        if (env('APP_ENV') !== 'testing') {
+            return redirect()->back();
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Doctor $doctor)
+  
+    public function destroy(Doctor $doctor, int $doctorid)
     {
-        //
+        if(Auth::guard('doctor')->check()){
+            Auth::guard('doctor')->logout();
+        }
+
+        $doctor = Doctor::find($doctorid);
+        $doctor->surgeries()->each(function($surgery){
+            $surgery->delete();
+        });
+        $doctor->delete();
+
+        if (env('APP_ENV') !== 'testing') {
+            return redirect()->back();
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Doctor $doctor)
+    public function passwordUpdate(Request $request, int $doctorid)
     {
-        //
+        $doctor = Doctor::find($doctorid);
+
+        if(Hash::check($request->current_password, $doctor->password)){
+            $doctor->password = Hash::make($request->password);
+            $doctor->save();
+        }else{
+            return redirect()->back()->withErrors(['current_password' => 'Senha atual incorreta']);
+        }
+
+        return redirect()->back();
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateDoctorRequest $request, Doctor $doctor)
+    public function medicalReport()
     {
-        //
-    }
+        $doctor = Doctor::find(Auth::guard('doctor')->user()->id);
+        $surgeries = $doctor->surgeries()->orderBy('date_start', 'asc')->get();
+        
+        $pdf = Pdf::loadView('doctor.medicalreport', compact('doctor', 'surgeries'));
+        return $pdf->stream();
+    }   
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Doctor $doctor)
-    {
-        //
-    }
 }

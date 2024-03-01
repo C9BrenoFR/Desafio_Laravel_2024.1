@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Pagination\Paginator;
 
 class Doctor extends Authenticatable
 {
@@ -43,5 +44,15 @@ class Doctor extends Authenticatable
     public function surgeries()
     {
         return $this->hasMany(Surgery::class);
+    }
+    
+    public function findById($id)
+    {
+        return $this->where('id', $id)->first();
+    }
+
+    public function finfByName($name)
+    {
+        return $this->where('name', $name)->first();
     }
 }

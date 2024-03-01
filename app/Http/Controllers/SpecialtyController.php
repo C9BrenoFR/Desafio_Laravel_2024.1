@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Specialty;
 use App\Http\Requests\StoreSpecialtyRequest;
 use App\Http\Requests\UpdateSpecialtyRequest;
+use Illuminate\Http\Request;
 
 class SpecialtyController extends Controller
 {
@@ -13,54 +14,40 @@ class SpecialtyController extends Controller
      */
     public function index()
     {
-        //
+        $specialties = Specialty::all();
+        $specialties = Specialty::paginate(10);
+        
+        return view('admin.specialty', compact('specialties'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(Request $request)
     {
-        //
-    }
+        $specialty = new Specialty;
+        $specialty->name = $request->name;
+        $specialty->desc = $request->desc;
+        $specialty->price = $request->price;
+        $specialty->save();
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreSpecialtyRequest $request)
+        return redirect()->back();
+    }
+    public function edit(Request $request, int $id)
     {
-        //
+        $specialty = new Specialty;
+        $specialty = $specialty->findById($id);
+        $specialty->name = $request->name;
+        $specialty->desc = $request->desc;
+        $specialty->price = $request->price;
+        $specialty->save();
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Specialty $specialty)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Specialty $specialty)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateSpecialtyRequest $request, Specialty $specialty)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Specialty $specialty)
     {
-        //
+        $specialty->doctors()->each(function($doctor){
+            $doctor->surgeries()->each(function($surgery){
+                $surgery->delete();
+            });
+            $doctor->delete();
+        });
+        $specialty->delete();
+        return redirect()->back();
     }
 }

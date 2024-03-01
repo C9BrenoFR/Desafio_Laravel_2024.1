@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\Paginator;
 
 class HealthPlan extends Model
 {
@@ -15,8 +16,14 @@ class HealthPlan extends Model
         'discount',
     ];
 
-    public function users()
+    public function users($id)
     {
-        return $this->hasMany(User::class);
+        $users = User::where('healthp_id', $id)->get();
+        return $users;
+    }
+
+    public function findById($id)
+    {
+        return $this->where('id', $id)->first();
     }
 }
