@@ -129,9 +129,38 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
+        @if (Auth::guard('web')->check())
+        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+            {{ __('Dashboard') }}
+        </x-nav-link>
+        @elseif (Auth::guard('admin')->check())
+        <x-nav-link :href="route('adminDashboard')" :active="request()->routeIs('adminDashboard')">
+            {{ __('Dashboard') }}
+        </x-nav-link>
+        @elseif (Auth::guard('doctor')->check())
+        <x-nav-link :href="route('doctorDashboard')" :active="request()->routeIs('doctorDashboard')">
+            {{ __('Dashboard') }}
+        </x-nav-link>
+        @endif
+
+        @if (Auth::guard('web')->check() || Auth::guard('doctor')->check())
+        <x-nav-link :href="route('surgery')" :active="request()->routeIs('surgery')">
+            {{ __('Agendamentos') }}
+        </x-nav-link>
+        @elseif (Auth::guard('admin')->check())
+        <x-nav-link :href="route('admin.specialty')" :active="request()->routeIs('admin.specialty')">
+            {{ __('Especialidades') }}
+        </x-nav-link>
+        <x-nav-link :href="route('admin.healthplan')" :active="request()->routeIs('admin.healthplan')">
+            {{ __('Planos de Saude') }}
+        </x-nav-link>
+        <x-nav-link :href="route('admin.patient')" :active="request()->routeIs('admin.patient')">
+            {{ __('Pacientes') }}
+        </x-nav-link>
+        <x-nav-link :href="route('admin.doctor')" :active="request()->routeIs('admin.doctor')">
+            {{ __('Medicos') }}
+        </x-nav-link>
+        @endif
         </div>
 
         <!-- Responsive Settings Options -->
@@ -152,9 +181,11 @@
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Perfil') }}
-                </x-responsive-nav-link>
+                @if (Auth::guard('web')->check() || Auth::guard('doctor')->check())
+                    <x-dropdown-link :href="route('profile.edit')">
+                        {{ __('Perfil') }}
+                    </x-dropdown-link>
+                @endif
 
                 <!-- Authentication -->
                 @if (Auth::guard('web')->check())
